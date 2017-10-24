@@ -1,0 +1,14 @@
+# behat.yml
+default:
+    suites:
+        features:
+            paths:
+                - %paths.base%/features/tests
+            contexts:
+                - FeatureContext:
+                    parameters:
+                        webDriverHost: "http://david.test:4444"
+                        browser: "chrome"
+                        capabilities:
+                            browserName: chrome
+                            platform: ANY
