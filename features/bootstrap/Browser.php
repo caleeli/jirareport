@@ -161,7 +161,16 @@ class Browser extends Session
         if(!$tags) {
             throw new Exception("Text '$text' not found");
         }
-        return $tags ? $tags[count($tags) - 1] : null;
+        $min = -1;
+        $tagI = count($tags) - 1;
+        foreach($tags as $i=>$tag) {
+            $diff = strlen(trim($tag->getText())) - strlen($text);
+            if ($diff >= 0 && ($diff <= $min || $min === -1)) {
+                $tagI = $i;
+                $min = $diff;
+            }
+        }
+        return $tags ? $tags[$tagI] : null;
     }
 
     /**
@@ -191,5 +200,19 @@ class Browser extends Session
     public function getWebDriverSessionId()
     {
         return $this->getDriver()->getWebDriverSessionId();
+    }
+
+    /**
+     * Wait an element by id.
+     *
+     * @param string $id
+     * @param int $time
+     */
+    public function waitElementById($id, $time = 5000)
+    {
+        $xpath = "//*[@id=" .
+            $this->encodeXpathString($id) .
+            "]";
+        $this->waitFor($xpath, $time);
     }
 }

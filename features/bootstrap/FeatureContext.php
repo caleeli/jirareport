@@ -102,28 +102,6 @@ class FeatureContext implements Context
     }
 
     /**
-     * @Then Login as :arg1 :arg2
-     */
-    public function loginAs($arg1, $arg2)
-    {
-        $session = $this->browser;
-        $username = $session->getElementById('form[USR_USERNAME]');
-        $username->setValue('admin');
-        $password = $session->getElementById('form[USR_PASSWORD_MASK]');
-        $password->setValue('admin');
-        $submit = $session->getElementById('form[BSUBMIT]');
-        $submit->click();
-    }
-
-    /**
-     * @When Inside :arg1
-     */
-    public function inside($arg1)
-    {
-        $this->browser->switchToIFrame($arg1);
-    }
-
-    /**
      * @Then Copy :arg1 of :arg2
      */
     public function copyOf($arg1, $arg2)
@@ -321,6 +299,51 @@ class FeatureContext implements Context
      */
     public function waitFor($arg1, $arg2)
     {
-        $element = $this->browser->waitElementsByTextContent($arg1, $arg2);
+        //$this->browser->waitElementsByTextContent($arg1, $arg2);
+        $time0 = microtime(true);
+        $max = $time0 + $arg2 * 1;
+        while(microtime(true)<$max) {
+            $tags = $this->browser->getElementsByTextContent($arg1);
+            if ($tags) {
+                $element = $tags[count($tags) - 1];
+                if ($element->isVisible()) {
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * @Then Wait to :arg1 :arg2 ms
+     */
+    public function waitTo($arg1, $arg2)
+    {
+        $this->browser->waitElementById($arg1, $arg2*1);
+    }
+
+    /**
+     * @Then Login as :arg1 :arg2
+     */
+    public function loginAs($arg1, $arg2)
+    {
+        $session = $this->browser;
+        $username = $session->getElementById('form[USR_USERNAME]');
+        $username->setValue('admin');
+        $password = $session->getElementById('form[USR_PASSWORD_MASK]');
+        $password->setValue('admin');
+        $submit = $session->getElementById('form[BSUBMIT]');
+        $submit->click();
+    }
+
+    /**
+     * @When Inside :arg1
+     */
+    public function inside($arg1)
+    {
+        //$this->browser->switchToIFrame(null);
+        foreach(explode("/", $arg1) as $arg) {
+            $nameOrId = trim($arg) ? trim($arg) : null;
+            $this->browser->switchToIFrame($nameOrId);
+        }
     }
 }

@@ -21,8 +21,8 @@ Feature: bugfix/HOR-3911
         Then Click on "deleteDB"
         Then Click at "Check Workspace Configuration"
         Then Click at "Finish"
-        Then Wait for "Ok" "100000" ms
-        Then Click at "Ok"
-        Then Write on "licenseFile" "/home/david.callizaya/jiraMonitor/license_7ubh3dHS2+bWqaOlnZ0.dat"
-        Then Click at "Update License"
+        Then Wait for "OK" "1000000" ms
+        Then Click on "ext-gen239"
+        Then Write on "form[licenseFile]" "/home/david.callizaya/jiraMonitor/license_7ubh3dHS2+bWqaOlnZ0.dat"
+        Then Click on "form[updateButton]"
         Then Click on "getStarted"
