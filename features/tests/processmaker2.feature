@@ -1,8 +1,7 @@
-Feature: bugfix/HOR-3911
-    NO FUNCIONA
-        Then Visit "http://david.test/pminstall.php?branch=bugfix/HOR-3901"
+Feature: Install processmaker from scratch
+    This script will install and configure processmaker2.david.test
 
-    Scenario: bugfix/HOR-3911
+    Scenario: A new processmaker copy
         Then Open a browser
         Then Visit "http://processmaker2.david.test"
         Then Click at "Next"
